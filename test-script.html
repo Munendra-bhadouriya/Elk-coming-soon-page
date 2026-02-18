@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Google Apps Script</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Google Apps Script Connection</h1>
+    
+    <h2>Test 1: GET Request</h2>
+    <button onclick="testGet()">Test GET</button>
+    
+    <h2>Test 2: POST with Form</h2>
+    <input type="email" id="testEmail" placeholder="test@example.com" value="test@example.com">
+    <button onclick="testPostForm()">Test POST (Form)</button>
+    
+    <h2>Test 3: POST with Fetch</h2>
+    <button onclick="testPostFetch()">Test POST (Fetch)</button>
+    
+    <div id="result"></div>
+    
+    <script>
+        const scriptURL = 'https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLgqxkjkqq7Lv3i6Z5sQym5R9TpPnH7mXhaRpROQwfjlxea2WzTXkubtuRGEScCjHZDL_ld501gHSrQz-VElw6or7ZmcL9l2CXQYkPCrhWQmxISu7XhQFizVsbpotkpTKIL11NfzyJzhljtJtrV69I-AcEdIuCxR_C9oS1nVVPEqLB89aky0UI1hknbTgZBs5nFHWTIB5TIh7-gHUl31O6-vIa5_K5N0vQulzOyjH_5wtoxoY1Z_h6SsmuavkmNxj4gm6P0Knd_lZ0o3OwJczl7Chp5r3o0_CST1bUvM&lib=MOgTHn9iPuuhN6eShIsGWZ6t8-lz7bw4X';
+        
+        function showResult(test, success, message) {
+            const result = document.getElementById('result');
+            result.innerHTML += `<p><strong>${test}:</strong> ${success ? '✅' : '❌'} ${message}</p>`;
+        }
+        
+        function testGet() {
+            fetch(scriptURL)
+                .then(response => response.text())
+                .then(text => {
+                    showResult('GET', true, 'Response: ' + text);
+                })
+                .catch(error => {
+                    showResult('GET', false, 'Error: ' + error.message);
+                });
+        }
+        
+        function testPostForm() {
+            const email = document.getElementById('testEmail').value;
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = scriptURL;
+            form.target = '_blank';
+            
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'email';
+            input.value = email;
+            form.appendChild(input);
+            
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+            
+            showResult('POST (Form)', true, 'Form submitted - check your Google Sheet!');
+        }
+        
+        function testPostFetch() {
+            const email = document.getElementById('testEmail').value;
+            const formData = 'email=' + encodeURIComponent(email);
+            
+            fetch(scriptURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData
+            })
+            .then(response => response.text())
+            .then(text => {
+                showResult('POST (Fetch)', true, 'Response: ' + text.substring(0, 200));
+            })
+            .catch(error => {
+                showResult('POST (Fetch)', false, 'Error: ' + error.message);
+            });
+        }
+    </script>
+</body>
+</html>
