@@ -17,7 +17,7 @@
 
         :root {
             --primary-color: #1a1a2e;
-            --accent-color: #d4af37;
+            --accent-color: #ca8a04;
             --text-light: #f5f5f5;
             --text-dark: #333;
             --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -99,31 +99,50 @@
             z-index: 1;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            flex-wrap: wrap;
             justify-content: center;
             align-items: center;
+            gap: 3rem;
             padding: 2rem;
-            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content-block {
+            flex: 1;
+            min-width: 280px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-top: -2rem;
+        }
+
+        .form-block {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         /* Logo/Brand */
         .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 2px;
+            margin-bottom: 2rem;
             animation: fadeInDown 1s ease-out;
+        }
+
+        .logo img {
+            max-width: min(320px, 100%);
+            height: auto;
+            display: block;
+            object-fit: contain;
         }
 
         /* Main Heading */
         .main-heading {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 700;
             margin-bottom: 1.5rem;
             line-height: 1.2;
@@ -131,7 +150,7 @@
         }
 
         .main-heading .highlight {
-            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
+            background: linear-gradient(135deg, #ca8a04 0%, #e0a020 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -139,13 +158,135 @@
 
         /* Subheading */
         .subheading {
-            font-size: clamp(1rem, 3vw, 1.5rem);
+            font-size: clamp(1rem, 2.5vw, 1.35rem);
             font-weight: 300;
-            margin-bottom: 3rem;
+            margin-bottom: 0;
             opacity: 0.9;
-            max-width: 600px;
+            max-width: 520px;
             line-height: 1.6;
             animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        /* Enquiry Form */
+        .enquiry-form {
+            width: 100%;
+            min-width: 320px;
+            max-width: 380px;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            text-align: left;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        .enquiry-form h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .enquiry-form label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: rgba(245, 245, 245, 0.9);
+            margin-bottom: 0.35rem;
+        }
+
+        .enquiry-form input,
+        .enquiry-form textarea {
+            width: 100%;
+            padding: 0.6rem 0.75rem;
+            margin-bottom: 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .enquiry-form input::placeholder,
+        .enquiry-form textarea::placeholder {
+            color: rgba(245, 245, 245, 0.45);
+        }
+
+        .enquiry-form input:focus,
+        .enquiry-form textarea:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(202, 138, 4, 0.25);
+        }
+
+        .enquiry-form textarea {
+            min-height: 72px;
+            resize: vertical;
+        }
+
+        .enquiry-form button {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            background: linear-gradient(135deg, #ca8a04 0%, #e0a020 100%);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: opacity 0.2s, transform 0.1s, color 0.2s;
+        }
+
+        .enquiry-form button:hover {
+            opacity: 0.95;
+        }
+
+        .enquiry-form button:active {
+            transform: scale(0.98);
+        }
+
+        .enquiry-form.is-submitting button {
+            color: transparent;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .enquiry-form.is-submitting button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border-radius: 50%;
+            border: 2px solid rgba(26, 26, 46, 0.25);
+            border-top-color: var(--primary-color);
+            animation: spin 0.65s linear infinite;
+        }
+
+        .enquiry-form .form-message {
+            font-size: 0.9rem;
+            margin-top: 0.75rem;
+            padding: 0.5rem 0;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .enquiry-form .form-message.success {
+            display: block;
+            color: #86efac;
+        }
+
+        .enquiry-form .form-message.error {
+            display: block;
+            color: #fca5a5;
         }
 
         /* Animations */
@@ -180,16 +321,41 @@
             }
         }
 
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* Responsive Design */
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-block {
+                text-align: center;
+            }
+
+            .logo img {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
         @media (max-width: 768px) {
-            .logo {
-                font-size: 2rem;
+            .logo img {
+                max-width: min(260px, 80vw);
+            }
+
+            .enquiry-form {
+                min-width: 0;
             }
         }
 
         @media (max-width: 480px) {
             .container {
                 padding: 1rem;
+                gap: 2rem;
             }
         }
     </style>
@@ -202,19 +368,69 @@
     </div>
 
     <div class="container">
-        <h1 class="main-heading">
-            Something <span class="highlight">Amazing</span><br>
-            is Coming Soon
-        </h1>
-        
-        <p class="subheading">
-            We're crafting our website. Be the first to know when we launch.
-        </p>
+        <div class="content-block">
+            <div class="logo">
+                <img src="Logo White (2).svg" alt="ELK AUDIOS - A unit of Globe Audio">
+            </div>
+            <h1 class="main-heading">
+                Something <span class="highlight">Amazing</span><br>
+                is Coming Soon
+            </h1>
+            <p class="subheading">
+                We're crafting our website. Be the first to know when we launch.
+            </p>
+        </div>
+        <div class="form-block">
+            <form class="enquiry-form" id="enquiryForm" action="#" method="post">
+            <h3>Enquiry</h3>
+            <label for="enq-name">Name</label>
+            <input type="text" id="enq-name" name="name" placeholder="Your name" required>
+            <label for="enq-number">Number</label>
+            <input type="tel" id="enq-number" name="number" placeholder="Phone number" required>
+            <label for="enq-address">Address</label>
+            <textarea id="enq-address" name="address" placeholder="Your address" required></textarea>
+            <button type="submit">Submit</button>
+            <p class="form-message" id="formMessage" aria-live="polite"></p>
+            </form>
+        </div>
     </div>
 
     <script>
-        // Add smooth scroll behavior
         document.documentElement.style.scrollBehavior = 'smooth';
+
+        document.getElementById('enquiryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var form = this;
+            var msg = document.getElementById('formMessage');
+            var btn = form.querySelector('button[type="submit"]');
+            msg.classList.remove('success', 'error');
+            msg.textContent = '';
+            btn.disabled = true;
+            form.classList.add('is-submitting');
+
+            var formData = new URLSearchParams(new FormData(form)).toString();
+
+            fetch('/api/enquiry', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: formData
+            }).then(function(r) { return r.json().then(function(data) { return { ok: r.ok, data: data }; }); }).then(function(result) {
+                if (result.ok && result.data.success) {
+                    msg.textContent = result.data.message || 'Thank you! We\'ll get back to you soon.';
+                    msg.classList.add('success');
+                    form.reset();
+                } else {
+                    msg.textContent = (result.data && result.data.error) || 'Something went wrong. Please try again.';
+                    msg.classList.add('error');
+                }
+            }).catch(function() {
+                msg.textContent = 'Network error. Run the server and set GOOGLE_SCRIPT_URL, or check the console.';
+                msg.classList.add('error');
+            }).finally(function() {
+                btn.disabled = false;
+                form.classList.remove('is-submitting');
+            });
+        });
     </script>
 </body>
 </html>
