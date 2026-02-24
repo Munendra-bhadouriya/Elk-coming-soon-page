@@ -78,6 +78,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            animation: float-center 20s infinite ease-in-out;
             animation-delay: 10s;
         }
 
@@ -90,6 +91,18 @@
             }
             66% {
                 transform: translate(-50px, 50px) scale(0.9);
+            }
+        }
+
+        @keyframes float-center {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            33% {
+                transform: translate(calc(-50% + 50px), calc(-50% - 50px)) scale(1.1);
+            }
+            66% {
+                transform: translate(calc(-50% - 50px), calc(-50% + 50px)) scale(0.9);
             }
         }
 
@@ -132,11 +145,44 @@
             animation: fadeInDown 1s ease-out;
         }
 
-        .logo img {
+        .logo-shimmer {
+            position: relative;
+            display: inline-block;
             max-width: min(320px, 100%);
-            height: auto;
-            display: block;
-            object-fit: contain;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+        }
+
+        .logo-shimmer::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                90deg,
+                #8b7500,
+                #ffd700,
+                #fffacd,
+                #ffd700,
+                #8b7500
+            );
+            background-size: 300% 300%;
+            animation: shine 8s infinite linear;
+            -webkit-mask-image: url("Logo White (2).svg");
+            -webkit-mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            -webkit-mask-size: contain;
+            mask-image: url("Logo White (2).svg");
+            mask-repeat: no-repeat;
+            mask-position: center;
+            mask-size: contain;
+        }
+
+        .logo-red-o {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
         }
 
         /* Main Heading */
@@ -149,11 +195,22 @@
             animation: fadeInUp 1s ease-out 0.2s both;
         }
 
-        .main-heading .highlight {
-            background: linear-gradient(135deg, #ca8a04 0%, #e0a020 100%);
+        .gold-text {
+            font-size: 1em;
+            font-weight: 700;
+            background: linear-gradient(
+                90deg,
+                #8b7500,
+                #ffd700,
+                #fffacd,
+                #ffd700,
+                #8b7500
+            );
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: shine 8s infinite linear;
         }
 
         /* Subheading */
@@ -234,7 +291,16 @@
             font-size: 0.95rem;
             font-weight: 600;
             color: var(--primary-color);
-            background: linear-gradient(135deg, #ca8a04 0%, #e0a020 100%);
+            background: linear-gradient(
+                90deg,
+                #8b7500,
+                #ffd700,
+                #fffacd,
+                #ffd700,
+                #8b7500
+            );
+            background-size: 300% 300%;
+            animation: shine 8s infinite linear;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -276,17 +342,20 @@
             margin-top: 0.75rem;
             padding: 0.5rem 0;
             border-radius: 6px;
+            text-align: center;
             display: none;
         }
 
         .enquiry-form .form-message.success {
             display: block;
             color: #86efac;
+            animation: fadeIn 0.35s ease-out;
         }
 
         .enquiry-form .form-message.error {
             display: block;
             color: #fca5a5;
+            animation: fadeIn 0.35s ease-out;
         }
 
         /* Animations */
@@ -321,6 +390,12 @@
             }
         }
 
+        @keyframes shine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
@@ -336,7 +411,9 @@
                 text-align: center;
             }
 
-            .logo img {
+            .logo,
+            .logo-shimmer {
+                margin-top: 1.5rem;
                 margin-left: auto;
                 margin-right: auto;
             }
@@ -369,12 +446,14 @@
 
     <div class="container">
         <div class="content-block">
-            <div class="logo">
-                <img src="Logo White (2).svg" alt="ELK AUDIOS - A unit of Globe Audio">
+            <div class="logo logo-shimmer" role="img" aria-label="ELK AUDIOS - A unit of Globe Audio">
+                <svg class="logo-red-o" viewBox="0 0 1967 1469" aria-hidden="true" focusable="false">
+                    <path d="M1496 1131C1498.92 1133.12 1501.47 1135.43 1504 1138C1504.55 1138.52 1505.09 1139.05 1505.65 1139.59C1514.25 1148.56 1515.74 1159.58 1515.71 1171.52C1515.72 1172.87 1515.74 1174.22 1515.75 1175.57C1515.79 1179.08 1515.8 1182.59 1515.81 1186.1C1515.82 1189.7 1515.85 1193.3 1515.89 1196.9C1515.95 1203.93 1515.99 1210.97 1516 1218C1517.09 1218.53 1518.17 1219.06 1519.29 1219.61C1520.74 1220.33 1522.19 1221.04 1523.63 1221.76C1524.7 1222.28 1524.7 1222.28 1525.8 1222.82C1546.67 1233.16 1561.52 1251.39 1569.14 1273.26C1576.04 1297.93 1573.06 1322.49 1560.66 1344.59C1557.33 1350.26 1553.5 1355.2 1549 1360C1548.42 1360.65 1547.83 1361.3 1547.23 1361.97C1533.39 1376.72 1511.2 1386.41 1491.03 1387.34C1465.53 1387.79 1443.33 1380.07 1424.37 1362.48C1409.69 1348.19 1399.24 1327.15 1398.83 1306.52C1398.82 1304.43 1398.81 1302.34 1398.81 1300.25C1398.8 1299.22 1398.79 1298.18 1398.78 1297.12C1398.76 1290.5 1399.42 1284.42 1401 1278C1401.2 1277.17 1401.4 1276.35 1401.61 1275.5C1407.06 1254.23 1422.08 1236.17 1440.61 1224.97C1457.73 1215 1457.73 1215 1467 1215C1466.94 1207.59 1466.86 1200.19 1466.76 1192.78C1466.72 1189.34 1466.68 1185.9 1466.65 1182.46C1466.62 1178.49 1466.57 1174.53 1466.51 1170.57C1466.51 1169.34 1466.5 1168.12 1466.49 1166.86C1466.34 1158 1465.19 1150.5 1460 1143.12C1459.51 1142.41 1459.01 1141.69 1458.5 1140.95C1457.11 1139.14 1455.65 1137.57 1454 1136C1455 1133 1455 1133 1457.14 1131.65C1458.03 1131.23 1458.91 1130.81 1459.81 1130.37C1460.69 1129.95 1461.56 1129.52 1462.46 1129.09C1472.38 1124.85 1486.78 1125.27 1496 1131Z" fill="#EE4127"/>
+                </svg>
             </div>
             <h1 class="main-heading">
-                Something <span class="highlight">Amazing</span><br>
-                is Coming Soon
+                Something <span class="gold-text">Amazing</span><br>
+                Coming Soon
             </h1>
             <p class="subheading">
                 We're crafting our website. Be the first to know when we launch.
@@ -382,7 +461,7 @@
         </div>
         <div class="form-block">
             <form class="enquiry-form" id="enquiryForm" action="#" method="post">
-            <h3>Enquiry</h3>
+            <h3>Further feedback</h3>
             <label for="enq-name">Name</label>
             <input type="text" id="enq-name" name="name" placeholder="Your name" required>
             <label for="enq-number">Number</label>
